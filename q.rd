@@ -174,7 +174,7 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
         row = rows[0]
         self.assertEqual(row["object"], "alf-Cyg")
         self.assertEqual(row["imageTitle"], 
-                'alf-Cyg_20-21.10.1985_20m_77S-77986.fits')
+                'alf-Cyg_20-21.10.1985_20m_77S-77986.fit')
       </code>
     </regTest>
 
