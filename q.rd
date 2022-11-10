@@ -1,7 +1,7 @@
 <resource schema="fai_schmidt_lc" resdir=".">
   <meta name="creationDate">2022-11-03T12:16:29Z</meta>
 
-  <meta name="title">Archive of the FAI 50 cm Meniskus Maksutov</meta>
+  <meta name="title">Archive of the FAI Schmidt telescope (large camera)</meta>
 
   <meta name="description">
 The archive of digitized plates obtained on Schmidt telescope (large camera) at the Fesenkov Astrophysical Institute (FAI), Almaty, Kazakhstan. They represent the results of photometric observations of stars, star clusrets, active galaxies, nebulaes, etc. for 35 years - from 1964 to 1989.    
@@ -133,8 +133,8 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
 
     <meta name="sia.type">Pointed</meta>
     
-    <meta name="testQuery.pos.ra">305.25</meta>
-    <meta name="testQuery.pos.dec">40</meta>
+    <meta name="testQuery.pos.ra">311.8</meta>
+    <meta name="testQuery.pos.dec">30.4</meta>
     <meta name="testQuery.size.ra">0.1</meta>
     <meta name="testQuery.size.dec">0.1</meta>
 
@@ -166,7 +166,7 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
       for more info on these. -->
 
     <regTest title="fai_schmidt_lc SIAP serves some data">
-      <url POS="84.2,9.3" SIZE="0.1,0.1"
+      <url POS="311.8,30.4" SIZE="0.1,0.1"
         >i/siap.xml</url>
       <code>
         rows = self.getVOTableRows()
