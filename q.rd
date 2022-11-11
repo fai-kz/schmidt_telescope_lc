@@ -43,10 +43,10 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
       targetClass="'%simbad target class%'"
     >//obscore#publishSIAP</mixin> -->
   
-    <column name="object" type="text"
+    <column name="objects" type="text[]"
       ucd="meta.id;src"
       tablehead="Obj."
-      description="Name of object according to observation log."
+      description="Name of objects according to observation log."
       verbLevel="3"/>
     <column name="target_ra"
       unit="deg" ucd="pos.eq.ra;meta.main"
@@ -93,7 +93,6 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
     <make table="main">
       <rowmaker>
         <simplemaps>
-          object: OBJECT,
           exptime: EXPTIME,
           telescope: TELESCOP
         </simplemaps>
@@ -119,16 +118,56 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
         <apply procDef="//siap#getBandFromFilter"/>
 
         <apply procDef="//siap#computePGS"/>
+        
+	<apply procDef="//procs#mapValue">
+	  <bind name="destination">"mapped_names"</bind>
+  	  <bind name="failuresMapThrough">True</bind>
+  	  <bind name="logFailures">True</bind>
+ 	  <bind name="value">@OBJECT</bind>
+    	  <bind name="sourceName">"fai_schmidt_lc/res/namefixes.txt"</bind>
+	</apply>	
 
-        <map key="target_ra">hmsToDeg(@OBJCTRA, sepChar=":")</map>
+	<map key="target_ra">hmsToDeg(@OBJCTRA, sepChar=":")</map>
         <map key="target_dec">dmsToDeg(@OBJCTDEC, sepChar=":")</map>
-
 	<map key="observer" source="OBSERVER" nullExcs="KeyError"/>
+	<map key="objects">@mapped_names.split("|")</map>
       </rowmaker>
     </make>
   </data>
+  
+  <dbCore queriedTable="main" id="imagecore">
+    <condDesc original="//siap#protoInput"/>
+    <condDesc original="//siap#humanInput"/>
+    <condDesc buildFrom="dateObs"/>
+    <condDesc>
+      <inputKey name="object" type="text" multiplicity="force-single"
+          tablehead="Target Object" 
+          description="Object being observed, Simbad-resolvable form"
+          ucd="meta.name">
+          <values fromdb="unnest(objects) FROM fai_schmidt_lc.main"/>
+      </inputKey>
+      <phraseMaker>
+        <code><![CDATA[
+          yield "array[%({})s] && objects".format(
+            base.getSQLKey("object", inPars["object"], outPars))
+        ]]></code>
+      </phraseMaker>
+    </condDesc>
+  </dbCore>
 
-  <service id="i" allowed="form,siap.xml">
+  <service id="web" allowed="form" core="imagecore">
+    <meta name="shortName">fai50mak web</meta>
+    <outputTable autoCols="accref,accsize,centerAlpha,centerDelta,
+        dateObs,imageTitle">
+      <outputField original="objects">
+        <formatter>
+          return " - ".join(data)
+        </formatter>
+      </outputField>
+    </outputTable>
+  </service>
+
+  <service id="i" allowed="form,siap.xml" core="imagecore">
     <meta name="shortName">fai_schmidt_lc</meta>
 
     <meta name="sia.type">Pointed</meta>
@@ -143,22 +182,6 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
     <!-- this puts the service on the root page -->
     <publish render="form" sets="local,ivo_managed"/>
 
-    <dbCore queriedTable="main">
-      <condDesc original="//siap#protoInput"/>
-      <condDesc original="//siap#humanInput"/>
-      <condDesc buildFrom="dateObs"/>
-
-
-      <!-- enable further parameters like
-        <condDesc>
-          <inputKey name="object" type="text" 
-              tablehead="Target Object" 
-              description="Object being observed, Simbad-resolvable form"
-              ucd="meta.name" verbLevel="5" required="True">
-              <values fromdb="object FROM lensunion.main"/>
-          </inputKey>
-        </condDesc> -->
-    </dbCore>
   </service>
 
   <regSuite title="fai_schmidt_lc regression">
@@ -174,7 +197,7 @@ The archive of digitized plates obtained on Schmidt telescope (large camera) at 
         row = rows[0]
         self.assertEqual(row["object"], "alf-Cyg")
         self.assertEqual(row["imageTitle"], 
-                'alf-Cyg_20-21.10.1985_20m_77S-77986.fits')
+                'alf-Cyg_20-21.10.1985_20m_77S-77986.fit')
       </code>
     </regTest>
 

@@ -1,0 +1,5 @@
+eta Del	eta-Del
+Unknown	Star STAR
+NGC253|NGC288	Star-Cet-NGC253-NGC288
+alf Cyg	alf-Cyg
+zet Aqr	zet-Aqr
