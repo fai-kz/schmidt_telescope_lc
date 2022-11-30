@@ -1,0 +1,12 @@
+
+
+================
+Now running: source-extractor -c anet.control img.fits
+
+[1M> 
+[1A----- Source Extractor 2.25.0 started on 2022-11-30 at 15:23:36 with 1 thread
+
+[1M> Setting catalog parameters
+[1A
+> *ERROR*: can't read default.param
+
