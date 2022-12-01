@@ -542,14 +542,9 @@ class PAHeaderAdder(api.AnetHeaderProcessor):
   sp_lower_pix = 2
   sp_upper_pix = 4
   sp_endob = 100
-  sp_indices = ["index-2mass-1[012].fits"]
+  sp_indices = ["index-2mass-*.fits"]
 
   sourceExtractorControl = """
-    
-    CATALOG_TYPE     FITS_1.0
-    CATALOG_NAME     img.axy
-    PARAMETERS_NAME  default.param
-    FILTER           N
     DETECT_MINAREA   20
     DETECT_THRESH    6
     SEEING_FWHM      1.2
