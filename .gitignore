@@ -1,3 +1,5 @@
 data/
 anet-debug/
 *.swp
+*data_astrometry_test/
+*.txt
