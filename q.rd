@@ -46,7 +46,7 @@ They represent the results of photometric observations of stars, comets, nebulae
       description="Name of .fit file (object_date_exp_id.fit)."
       verbLevel="5"/>
     <column original="dateObs"
-      description="The date of observation from observational log."/>
+      description="The date of observation from observational log. (Y-M-D .. Y-M-D)"/>
     <column name="target_ra"
       unit="deg" ucd="pos.eq.ra;meta.main"
       tablehead="Target RA"
@@ -74,9 +74,9 @@ They represent the results of photometric observations of stars, comets, nebulae
   </coverage>
 
   <data id="import">
-    <!-- <sources pattern="/var/gavo/inputs/astroplates/schmidt_telescope_lc/data/*.fit"/>-->
+    <sources pattern="/var/gavo/inputs/astroplates/schmidt_telescope_lc/header_done/*.fit"/>
     <!-- <sources pattern="/var/gavo/inputs/astroplates/schmidt_header_nowcs/*.fit"/>-->
-    <sources pattern="/var/gavo/inputs/schmidt_telescope_lc/data_astrometry_test/*.fit"/>
+    <!-- <sources pattern="/var/gavo/inputs/schmidt_telescope_lc/data_astrometry_test/*.fit"/> -->
 
     <fitsProdGrammar>
       <rowfilter procDef="//products#define">
@@ -172,15 +172,8 @@ They represent the results of photometric observations of stars, comets, nebulae
           tablehead="Target Object" 
           description="Object being observed, Simbad-resolvable form"
           ucd="meta.name">
-          <values fromdb="object FROM schmidt_telescope_lc.main"/>
+          <values fromdb="object FROM schmidt_telescope_lc.main  ORDER BY object"/>
       </inputKey>
-      <!--<phraseMaker>
-        <setup imports="numpy"/>
-        <code><![CDATA[
-          yield "%({})s && object".format(
-            base.getSQLKey("object", inPars["object"], outPars))
-        ]]></code>
-      </phraseMaker>-->
     </condDesc>
   </dbCore>
 
